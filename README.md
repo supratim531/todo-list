@@ -1,7 +1,11 @@
 # todo-list
-must-del
+## Mini JS Project for Evaluation @bitcanny
 
-- After clone this repo
-1. cd todo-list
-1. npm i
-1. npm start
+### Open your terminal
+
+```
+git clone https://github.com/supratim531/todo-list.git
+```
+```
+cd todo-list && npm i && npm start
+```
