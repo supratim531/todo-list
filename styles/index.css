@@ -7,3 +7,16 @@
 * {
   font-family: Roboto, sans-serif;
 }
+
+.line-through {
+  text-decoration-line: line-through;
+}
+
+.heading {
+  text-align: center;
+  font-weight: 600;
+  font-size: 3rem /* 48px */;
+  line-height: 1;
+  color: rgb(156 163 175);
+  background-color: #efc8b150;
+}

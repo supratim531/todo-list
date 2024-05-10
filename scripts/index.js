@@ -2,6 +2,13 @@ let todos = localStorage.getItem("todos")
   ? JSON.parse(localStorage.getItem("todos"))
   : [];
 
+todos.push({
+  title: "_dummy",
+  description:
+    "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed quo, odit perferendis velit cupiditate explicabo tempora quisquam facere distinctio dignissimos blanditiis vel in voluptatem expedita exercitationem amet voluptatum nulla nihil.",
+  marked: true,
+});
+
 const renderTodos = () => {
   const todoListElement = document.getElementById("todo-list");
   todoListElement.innerHTML = "";
@@ -13,7 +20,7 @@ const renderTodos = () => {
       <section class="flex flex-col gap-2">
         <h3 class="font-semibold text-[2rem] text-[#514644] ${
           todo.marked ? "line-through" : "normal-case"
-        }">${index + 1}. ${todo.title}</h3>
+        }">${todo.title === "_dummy" ? ".." : index + 1}. ${todo.title}</h3>
         <p class="${todo.marked ? "line-through" : "normal-case"}">${
       todo.description
     }</p>
@@ -80,12 +87,15 @@ const renderTodos = () => {
   if (todos.length === 0) {
     const todoListItemElement = document.createElement("li");
     todoListItemElement.innerHTML = `
-      <h2 class="text-center font-semibold text-5xl text-gray-400 bg-[#efc8b150]">No Todos</h2>
+      <h2 class="heading">No Todos</h2>
       `;
     todoListElement.appendChild(todoListItemElement);
   }
 
-  localStorage.setItem("todos", JSON.stringify(todos));
+  localStorage.setItem(
+    "todos",
+    JSON.stringify(todos.filter((todo) => todo.title !== "_dummy"))
+  );
 };
 
 renderTodos();
@@ -99,8 +109,8 @@ submitButtonElement.addEventListener("click", (event) => {
   if (inputElement.value && textareaElement.value) {
     event.preventDefault();
     const newTodo = {
-      title: inputElement.value,
-      description: textareaElement.value,
+      title: inputElement.value.trim(),
+      description: textareaElement.value.trim(),
     };
     todos.push(newTodo);
     renderTodos();
