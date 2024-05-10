@@ -1,20 +1,6 @@
-let todos = [
-  {
-    title: "Title 1",
-    description: "This is a long description 1",
-    marked: false,
-  },
-  {
-    title: "Title 2",
-    description: "This is a long description 2",
-    marked: true,
-  },
-  {
-    title: "Title 3",
-    description: "This is a long description 3",
-    marked: false,
-  },
-];
+let todos = localStorage.getItem("todos")
+  ? JSON.parse(localStorage.getItem("todos"))
+  : [];
 
 const renderTodos = () => {
   const todoListElement = document.getElementById("todo-list");
@@ -52,8 +38,10 @@ const renderTodos = () => {
     </li>
     `;
 
-    const updateButton = todoListItemElement.querySelectorAll("button")[0];
-    const deleteButton = todoListItemElement.querySelectorAll("button")[1];
+    const updateButtonElement =
+      todoListItemElement.querySelectorAll("button")[0];
+    const deleteButtonElement =
+      todoListItemElement.querySelectorAll("button")[1];
     const markInputElement = todoListItemElement.querySelectorAll(
       "input[type='checkbox']"
     )[0];
@@ -63,7 +51,7 @@ const renderTodos = () => {
       renderTodos();
     });
 
-    updateButton.addEventListener("click", () => {
+    updateButtonElement.addEventListener("click", () => {
       const newTitle = prompt("Update Title:", todo.title);
 
       if (newTitle) {
@@ -79,7 +67,7 @@ const renderTodos = () => {
       }
     });
 
-    deleteButton.addEventListener("click", () => {
+    deleteButtonElement.addEventListener("click", () => {
       if (confirm(`Are you sure you want to delete "${todo.title}"?`)) {
         todos.splice(index, 1);
         renderTodos();
@@ -88,6 +76,35 @@ const renderTodos = () => {
 
     todoListElement.appendChild(todoListItemElement);
   });
+
+  if (todos.length === 0) {
+    const todoListItemElement = document.createElement("li");
+    todoListItemElement.innerHTML = `
+      <h2 class="text-center font-semibold text-5xl text-gray-400 bg-[#efc8b150]">No Todos</h2>
+      `;
+    todoListElement.appendChild(todoListItemElement);
+  }
+
+  localStorage.setItem("todos", JSON.stringify(todos));
 };
 
 renderTodos();
+
+const formElement = document.querySelectorAll("form")[0];
+const inputElement = formElement.querySelector("input");
+const textareaElement = formElement.querySelector("textarea");
+const submitButtonElement = document.querySelectorAll("form > button")[0];
+
+submitButtonElement.addEventListener("click", (event) => {
+  if (inputElement.value && textareaElement.value) {
+    event.preventDefault();
+    const newTodo = {
+      title: inputElement.value,
+      description: textareaElement.value,
+    };
+    todos.push(newTodo);
+    renderTodos();
+    inputElement.value = "";
+    textareaElement.value = "";
+  }
+});
