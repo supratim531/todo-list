@@ -16,7 +16,7 @@ const renderTodos = () => {
   todos.forEach((todo, index) => {
     const todoListItemElement = document.createElement("li");
     todoListItemElement.innerHTML = `
-    <li class="p-2 space-y-3 rounded-sm bg-[#efc8b1]">
+    <section class="p-2 space-y-3 rounded-sm bg-[#efc8b1]">
       <section class="flex flex-col gap-2">
         <h3 class="font-semibold text-[2rem] text-[#514644] ${
           todo.marked ? "line-through" : "normal-case"
@@ -26,11 +26,11 @@ const renderTodos = () => {
     }</p>
   
         <div>
-          <input class="cursor-pointer" type="checkbox" id="${
-            "Mark" + todo.title
+          <input class="cursor-pointer" type="checkbox" id="mark-${
+            index + 1
           }" ${todo.marked ? "checked" : null}>
-          <label class="cursor-pointer" for="${
-            "Mark" + todo.title
+          <label class="cursor-pointer" for="mark-${
+            index + 1
           }">Mark as Done</label>
         </div>
       </section>
@@ -42,7 +42,7 @@ const renderTodos = () => {
           <i class="fa-solid fa-trash-can"></i>
         </button>
       </section>
-    </li>
+    </section>
     `;
 
     const updateButtonElement =
